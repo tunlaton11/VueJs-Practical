@@ -24,8 +24,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'App',
   data(){ //keep attribute data
@@ -43,7 +41,6 @@ export default {
         height: 165,
         weight: 55
       }
-    
     }
   },
 
