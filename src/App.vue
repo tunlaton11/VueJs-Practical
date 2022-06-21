@@ -75,6 +75,18 @@ export default {
     getRole(){
       return this.salary >= 20000? "Senior" : "Junior";
     }
+  },
+
+  watch: {
+    salary(value) {
+      if (value > 50000) {
+        alert("Salary must not more than 50000");
+        setTimeout(() => {
+          this.salary = 50000
+        }, 1000)
+
+      }
+    }
   }
 };
 </script>
