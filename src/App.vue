@@ -1,49 +1,37 @@
 <template>
-  <div>
-    <form @submit.prevent="addPersonData">
-      <div>
-        <label for="fname">First Name: </label>
-        <input type="text" id="fname" />
-      </div>
-      <div>
-        <laFormSubmitbel for="lname">Last Name: </laFormSubmitbel>
-        <input type="text" id="lname" />
-      </div>
-      <div>
-        <label for="age">Age: </label>
-        <input type="number" id="age" />
-      </div>
-      <div>
-        <label for="salary">Salary: </label>
-        <input type="number" id="salary" />
-      </div>
-      <button type="submit">Submit</button>
-    </form>
+  <div class="container-fluid">
+    <div class="container w-50 p-4 mt-3" id="form">
+      <FormComponent />
+    </div>
+    <hr>
+    <div class="container w-75 p-4 mt-3">
+      <h2>Show Personal Data</h2>
+      <DataTable />
+    </div>
   </div>
 </template>
 
 <script>
-// import firebase from './firebaseInit'
-// const db = firebase.firestore();
+import FormComponent from "./components/FormComponent.vue";
+import DataTable from "./components/DataTable.vue";
 
 export default {
   name: "App",
-  data() {
-    return {
-      fname: "Tunlaton",
-      laname: "Wongchai",
-      age: 20,
-      salary: 30000,
-      timestamp: Date.now(),
-    };
-  },
-  methods: {
-    addPersonData() {
-      console.log("Submit");
-    },
+  components: {
+    FormComponent,
+    DataTable,
   },
 };
 </script>
 
 <style>
+body {
+  color: white !important;
+  background: #371b58 !important;
+}
+
+#form {
+  background: #4c3575;
+  border-radius: 15px;
+}
 </style>
