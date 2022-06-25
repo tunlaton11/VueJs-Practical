@@ -1,11 +1,10 @@
 <template>
   <div class="container-fluid">
-    <div class="container w-50 p-4 mt-3" id="form">
+    <div class="container w-50 p-4 mt-3 shadow rounded" id="form">
       <FormComponent />
     </div>
-    <hr>
     <div class="container w-75 p-4 mt-3">
-      <h2>Show Personal Data</h2>
+      <h2></h2>
       <DataTable />
     </div>
   </div>
@@ -25,13 +24,17 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans&display=swap');
+
+
 body {
-  color: white !important;
-  background: #371b58 !important;
+  color: black !important;
+  background: #E1F2FB !important;
+  font-family: 'Merriweather Sans', sans-serif !important;
 }
 
 #form {
-  background: #4c3575;
+  background: white;
   border-radius: 15px;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <table class="table table-secondary">
+  <table class="table table-hover table-light shadow">
     <thead class="table-dark">
       <tr>
         <th scope="col">No.</th>
@@ -19,14 +19,14 @@
         <td>{{ PersonData[index].age }}</td>
         <td>{{ PersonData[index].salary }}</td>
         <td><button class="btn btn-success">Edit</button></td>
-        <td><button class="btn btn-danger">Delete</button></td>
+        <td><button @click="delPersonData(PersonData[index])" class="btn btn-danger" :id="index">Delete</button></td>
       </tr>
     </tbody>
   </table>
 </template>
 
 <script>
-import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy, deleteDoc, doc } from "firebase/firestore";
 import db from "../firebaseInit";
 
 export default {
@@ -37,8 +37,8 @@ export default {
     };
   },
   methods: {
-    getPersonData() {
-      const q = query(collection(db, "PersonData"), orderBy('timestamp'));
+    async getPersonData() {
+      const q = await query(collection(db, "PersonData"), orderBy('timestamp'));
       onSnapshot(q, (querySnapshot) => {
         this.PersonData = [];
         querySnapshot.forEach((doc) => {
@@ -48,6 +48,17 @@ export default {
 
       });
     },
+    async delPersonData(id) {
+      const docId = `${id.fname}_${id.lname}`;
+      if (window.confirm("Do you really want to delete?")) {
+        await deleteDoc(doc(db, "PersonData", docId)).then(() => {
+          console.log(`Deleted ID: ${docId} Complete!`)
+        })
+          .catch((error) => {
+            console.error(error);
+          })
+      }
+    }
   },
   created() {
     this.getPersonData();

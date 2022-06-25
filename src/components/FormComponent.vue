@@ -1,53 +1,65 @@
 <template>
-  <h2>Personal Data Form</h2>
-  <form @submit.prevent="addPersonData" class="row mt-3">
+  <h2 align="center"><b>Personal Data Form</b></h2>
+  <form @submit.prevent="addPersonData" class="row mt-5">
     <div class="col-md-6">
       <label for="fname" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="fname" />
+      <input type="text" class="form-control" id="fname" ref='fname' />
     </div>
     <div class="col-md-6">
       <label for="lname" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="lname" />
+      <input type="text" class="form-control" id="lname" ref='lname' />
     </div>
     <div class="col-md-2">
       <label for="age" class="form-label">Age</label>
-      <input type="number" class="form-control" id="age" />
+      <input type="number" class="form-control" id="age" ref='age' />
     </div>
     <div class="col-md-4">
       <label for="salary" class="form-label">Salary</label>
-      <input type="number" class="form-control" id="salary" />
+      <input type="number" class="form-control" id="salary" ref='salary' />
+    </div>
+    <div class="col-md-6 mt-3 alert alert-danger" role="alert" v-show="showAlert">
+      This data is already exists in database!
     </div>
     <div class="col-12 mt-3">
       <button type="submit" class="btn btn-warning">Add data</button>
     </div>
+
   </form>
 </template>
 
 <script>
-import { collection, addDoc, Timestamp } from "firebase/firestore";
+import { doc, setDoc, Timestamp, getDoc } from "firebase/firestore";
 import db from "../firebaseInit";
 
 export default {
   name: "FormComponent",
   data() {
     return {
-      fname: "",
-      laname: "",
-      age: "",
-      salary: "",
-      timestamp: Date.now(),
-    };
+      showAlert: false
+    }
   },
   methods: {
-    async addPersonData() {
-      const docRef = await addDoc(collection(db, "PersonData"), {
-        fname: "Freddie",
-        lname: "Mercury",
-        age: 45,
-        salary: 1002302,
-        timestamp: Timestamp.now(),
-      });
-      console.log("Document written with ID: ", docRef.id);
+    async addPersonData(event) {
+      const docId = `${this.$refs.fname.value}_${this.$refs.lname.value}`;
+      const docRef = doc(db, "PersonData", docId)
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        this.showAlert = true
+        console.log(`ID: ${docRef.id} is already exists!`);
+      }
+      else {
+        setDoc(docRef, {
+          fname: this.$refs.fname.value,
+          lname: this.$refs.lname.value,
+          age: this.$refs.age.value,
+          salary: this.$refs.salary.value,
+          timestamp: Timestamp.now(),
+        });
+        console.log("Document written with ID: ", docRef.id);
+        this.showAlert = false
+      }
+      event.target.reset()
     },
   },
 };
