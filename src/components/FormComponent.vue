@@ -3,24 +3,24 @@
   <form @submit.prevent="addPersonData" class="row mt-5">
     <div class="col-md-6">
       <label for="fname" class="form-label">First Name</label>
-      <input type="text" class="form-control" id="fname" ref='fname' />
+      <input type="text" class="form-control" id="fname" ref='fname' required />
     </div>
     <div class="col-md-6">
       <label for="lname" class="form-label">Last Name</label>
-      <input type="text" class="form-control" id="lname" ref='lname' />
+      <input type="text" class="form-control" id="lname" ref='lname' required />
     </div>
     <div class="col-md-2">
       <label for="age" class="form-label">Age</label>
-      <input type="number" class="form-control" id="age" ref='age' />
+      <input type="number" class="form-control" id="age" ref='age' required />
     </div>
     <div class="col-md-4">
       <label for="salary" class="form-label">Salary</label>
-      <input type="number" class="form-control" id="salary" ref='salary' />
+      <input type="number" class="form-control" id="salary" ref='salary' required />
     </div>
     <div class="col-md-6 mt-3 alert alert-danger" role="alert" v-show="showAlert">
       This data is already exists in database!
     </div>
-    <div class="col-12 mt-3">
+    <div class="col-12 mt-4">
       <button type="submit" class="btn btn-warning">Add data</button>
     </div>
 

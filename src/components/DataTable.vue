@@ -7,30 +7,36 @@
         <th scope="col">Last Name</th>
         <th scope="col">Age</th>
         <th scope="col">Salary</th>
-        <th scope="col"></th>
-        <th scope="col"></th>
+        <th scope="col">Actions</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="table-group-divider">
       <tr v-for="(item, index) in PersonData" :key="index">
-        <th scope="row">{{ index }}</th>
-        <td>{{ PersonData[index].fname }}</td>
-        <td>{{ PersonData[index].lname }}</td>
-        <td>{{ PersonData[index].age }}</td>
-        <td>{{ PersonData[index].salary }}</td>
-        <td><button class="btn btn-success">Edit</button></td>
-        <td><button @click="delPersonData(PersonData[index])" class="btn btn-danger" :id="index">Delete</button></td>
+        <th scope="row">{{ index + 1 }}</th>
+        <td>{{ item.fname }}</td>
+        <td>{{ item.lname }}</td>
+        <td>{{ item.age }}</td>
+        <td>{{ item.salary }}</td>
+        <td>
+          <EditFormModal :docId="`${item.fname}_${item.lname}`" :modalId="`modal${index}`" />
+          <button @click="delPersonData(item)" class="btn btn-danger">Delete</button>
+        </td>
       </tr>
     </tbody>
   </table>
+
 </template>
 
 <script>
+import EditFormModal from "./EditFormModal.vue";
 import { collection, query, onSnapshot, orderBy, deleteDoc, doc } from "firebase/firestore";
 import db from "../firebaseInit";
 
 export default {
   name: "DataTable",
+  components: {
+    EditFormModal
+  },
   data() {
     return {
       PersonData: [],
@@ -50,7 +56,7 @@ export default {
     },
     async delPersonData(id) {
       const docId = `${id.fname}_${id.lname}`;
-      if (window.confirm("Do you really want to delete?")) {
+      if (window.confirm(`Do you really want to delete ID ${docId} ?`)) {
         await deleteDoc(doc(db, "PersonData", docId)).then(() => {
           console.log(`Deleted ID: ${docId} Complete!`)
         })
@@ -60,7 +66,7 @@ export default {
       }
     }
   },
-  created() {
+  mounted() {
     this.getPersonData();
   },
 };
