@@ -19,7 +19,8 @@
         <td>{{ item.salary }}</td>
         <td>
           <EditFormModal :docId="`${item.fname}_${item.lname}`" :modalId="`modal${index}`" />
-          <button @click="delPersonData(item)" class="btn btn-danger">Delete</button>
+          <button @click="delPersonData(item)" class="btn btn-danger">
+            <i class="bi bi-trash3-fill"></i></button>
         </td>
       </tr>
     </tbody>
