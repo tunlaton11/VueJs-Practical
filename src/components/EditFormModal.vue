@@ -1,87 +1,39 @@
 <template>
-  <button
-    type="button"
-    class="btn btn-success"
-    data-bs-toggle="modal"
-    style="margin-right: 20px"
+  <button type="button" class="btn btn-success" data-bs-toggle="modal" style="margin-right: 20px"
     :data-bs-target="'#' + modalId">
     <i class="bi bi-pencil-fill"></i>
   </button>
-  <div
-    class="modal fade"
-    :id="modalId"
-    tabindex="-1"
-    aria-labelledby="exampleModalLabel"
-    aria-hidden="true">
+  <div class="modal fade" :id="modalId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title"><b>Edit Personal Data</b></h5>
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="modal"
-            aria-label="Close"
-          ></button>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
           <form @submit.prevent="updatePersondata" class="row">
             <div class="col-md-6">
               <label for="fname" class="form-label">First Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fname"
-                :value="PersonData.fname"
-                disabled
-              />
+              <input type="text" class="form-control" id="fname" v-model="PersonData.fname" disabled />
             </div>
             <div class="col-md-6">
               <label for="lname" class="form-label">Last Name</label>
-              <input
-                type="text"
-                class="form-control"
-                id="lname"
-                :value="PersonData.lname"
-                disabled
-              />
+              <input type="text" class="form-control" id="lname" v-model="PersonData.lname" disabled />
             </div>
             <div class="col-md-3">
               <label for="age" class="form-label">Age</label>
-              <input
-                type="number"
-                class="form-control"
-                id="age"
-                :value="PersonData.age"
-                ref="age"
-                required
-              />
+              <input type="number" class="form-control" id="age" v-model="PersonData.age" ref="age" required />
             </div>
             <div class="col-md-5">
               <label for="salary" class="form-label">Salary</label>
-              <input
-                type="number"
-                class="form-control"
-                id="salary"
-                :value="PersonData.salary"
-                ref="salary"
-                required
-              />
+              <input type="number" class="form-control" id="salary" v-model="PersonData.salary" ref="salary" required />
             </div>
             <div class="col-md-12 modal-footer mt-4">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                 Close
               </button>
-              <button
-                type="submit"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                @click="updatePersonData"
-              >
+              <button type="submit" class="btn btn-primary" @click="updatePersonData" :disabled="isSumbitDisable"
+                data-bs-dismiss="modal">
                 Save changes
               </button>
             </div>
@@ -103,6 +55,11 @@ export default {
     return {
       PersonData: {},
     };
+  },
+  computed: {
+    isSumbitDisable() {
+      return !this.PersonData.age > 0 || !this.PersonData.salary > 0;
+    }
   },
   methods: {
     async getPersonData() {
